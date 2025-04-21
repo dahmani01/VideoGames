@@ -1,0 +1,11 @@
+videogames.db
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+*.pdb
+*.tmp
+*.vs/
