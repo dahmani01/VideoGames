@@ -11,6 +11,7 @@ public class Game
     public string Name { get; set; }
    
     public string? Description { get; set; }
-   
+    
+    public int GenreId { get; set; }
     public GameGenre Genre { get; set; }
 }

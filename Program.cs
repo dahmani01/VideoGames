@@ -1,8 +1,15 @@
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using VideoGames.Data;
 using VideoGames.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,7 +31,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+//Game Endpoints
 app.MapGet("/games", async (VideoGamesContext db) =>
     await db.Games.Include(g => g.Genre).ToListAsync());
 
@@ -32,6 +39,13 @@ app.MapGet("/games/{id}", async (VideoGamesContext db, int id) =>
     await db.Games.Include(g => g.Genre).FirstOrDefaultAsync(g => g.Id == id));
 
 app.MapPost("/games", async (VideoGamesContext db, Game game) =>
-    await db.Games.AddAsync(game));
+{
+    await db.Games.AddAsync(game);
+    await db.SaveChangesAsync();
+}); 
+
+//GameGenre Endpoints 
+app.MapGet("gamegenres", async (VideoGamesContext db) =>
+    await db.GameGenres.ToListAsync());
 
 app.Run();

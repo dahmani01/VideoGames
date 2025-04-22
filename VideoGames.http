@@ -1,6 +1,24 @@
 @VideoGames_HostAddress = http://localhost:5298
 
-GET {{VideoGames_HostAddress}}/weatherforecast/
+### List all games
+GET {{VideoGames_HostAddress}}/games
 Accept: application/json
 
-###
+### Get a specific game by ID
+GET {{VideoGames_HostAddress}}/games/1
+Accept: application/json
+
+### Add a new game
+POST {{VideoGames_HostAddress}}/games
+Content-Type: application/json
+
+{
+  "id": 2,
+  "name": "The Witcher 3",
+  "description": "A fantasy RPG",
+  "genreId": 2
+}
+
+### List all game genres
+GET {{VideoGames_HostAddress}}/gamegenres
+Accept: application/json
