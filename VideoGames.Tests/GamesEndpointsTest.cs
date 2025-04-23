@@ -5,6 +5,7 @@ using VideoGames.Data;
 using VideoGames.Models;
 using System.Net.Http.Json;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace VideoGames.Tests;
