@@ -49,3 +49,5 @@ app.MapGet("gamegenres", async (VideoGamesContext db) =>
     await db.GameGenres.ToListAsync());
 
 app.Run();
+
+public partial class Program { }
