@@ -1,11 +1,44 @@
-videogames.db
+# Rider-specific files
+.idea/
+*.iml
+
+# Build outputs
 bin/
 obj/
-*.user
+publish/
+
+# Package caches and local settings
+packages/
+*.nupkg
+*.vspscc
+*.vssscc
+_ReSharper*/
+*.DotSettings.user
+
+# Test results
+TestResults/
+*.trx
+*.coverage
+*.datacollection
+
+# User-specific files
 *.suo
-*.userosscache
+*.user
 *.sln.docstates
+
+# ASP.NET Core specific
+*.aspsess
+*.vsuser*
+appsettings.Development.json
+launchSettings.json
+
+# NuGet package restore folder (usually not needed with PackageReference)
+# packages/
+
+# Tooling artifacts
+.vs/
+
+# Other temporary files
 *.log
-*.pdb
 *.tmp
-*.vs/
+*$*
