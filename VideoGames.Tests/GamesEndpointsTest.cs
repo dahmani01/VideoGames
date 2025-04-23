@@ -22,7 +22,8 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             builder.ConfigureServices(services =>
             {
                 // Remove the existing DbContext registration
-                var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<VideoGamesContext>));
+                var descriptor = services.SingleOrDefault(d =>
+                    d.ServiceType == typeof(IDbContextOptionsConfiguration<VideoGamesContext>));
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
