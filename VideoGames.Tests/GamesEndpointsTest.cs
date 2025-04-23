@@ -97,4 +97,23 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal("A Metroidvania masterpiece", createdGame.Description);
         Assert.Equal(1, createdGame.GenreId);
     }
+
+    [Fact]
+    public async Task GetGameGenres_ReturnsListOfGameGenres()
+    {
+        //Arrange
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
+
+        //Act
+        var response = await _client.GetAsync("/gamegenres");
+        response.EnsureSuccessStatusCode();
+        var gameGenres = await response.Content.ReadFromJsonAsync<List<GameGenre>>();
+
+        //Assert
+        Assert.NotNull(gameGenres);
+        Assert.Single(gameGenres);
+        Assert.Equal(1, gameGenres[0].Id);
+        Assert.Equal("Action", gameGenres[0].Name);
+    }
 }
