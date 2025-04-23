@@ -49,8 +49,8 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         db.Games.Add(game);
         await db.SaveChangesAsync();
     }
-    
-    
+
+
     [Fact]
     public async Task GetGames_ReturnsListOfGames()
     {
@@ -70,17 +70,17 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal("DOOM", games[0].Name);
         Assert.Equal("Action", games[0].Genre?.Name);
     }
-    
+
     [Fact]
     public async Task PostGame_CreatesNewGame()
     {
         // Arrange
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
-        await SeedData(db); // Seed a genre (required for the foreign key)
 
         var newGame = new Game
         {
+            Id = 2,
             Name = "Hollow Knight",
             Description = "A Metroidvania masterpiece",
             GenreId = 1
@@ -98,4 +98,3 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Equal(1, createdGame.GenreId);
     }
 }
-
