@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using VideoGames.Data;
@@ -18,7 +19,7 @@ builder.Services.AddSwaggerGen();
 
 //Add SQLite DbContext
 builder.Services.AddDbContext<VideoGamesContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
@@ -36,13 +37,16 @@ app.MapGet("/games", async (VideoGamesContext db) =>
     await db.Games.Include(g => g.Genre).ToListAsync());
 
 app.MapGet("/games/{id}", async (VideoGamesContext db, int id) =>
-    await db.Games.Include(g => g.Genre).FirstOrDefaultAsync(g => g.Id == id));
+{
+    var game = await db.Games.Include(g => g.Genre).FirstOrDefaultAsync(g => g.Id == id);
+    return game == null ? Results.NotFound("Game not found") : Results.Ok(game);
+});
 
 app.MapPost("/games", async (VideoGamesContext db, Game game) =>
 {
     await db.Games.AddAsync(game);
     await db.SaveChangesAsync();
-}); 
+});
 
 //GameGenre Endpoints 
 app.MapGet("gamegenres", async (VideoGamesContext db) =>
@@ -50,4 +54,6 @@ app.MapGet("gamegenres", async (VideoGamesContext db) =>
 
 app.Run();
 
-public partial class Program { }
+public partial class Program
+{
+}
