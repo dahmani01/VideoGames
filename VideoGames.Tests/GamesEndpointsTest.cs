@@ -130,4 +130,18 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
     }
+
+    [Fact]
+    public async Task GetGameGenreById_ReturnsNotFound_WhenGameGenreDoesNotExist()
+    {
+        //Arrange
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
+
+        //Act
+        var response = await _client.GetAsync("/games/999");
+
+        //Assert
+        Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+    }
 }
