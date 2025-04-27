@@ -52,6 +52,12 @@ app.MapPost("/games", async (VideoGamesContext db, Game game) =>
 app.MapGet("gamegenres", async (VideoGamesContext db) =>
     await db.GameGenres.ToListAsync());
 
+app.MapGet("/gamegenres/{id}", async (VideoGamesContext db, int id) =>
+{
+    var gameGenre = await db.GameGenres.FirstOrDefaultAsync(g => g.Id == id);
+    return gameGenre == null ? Results.NotFound("Game Genre not found") : Results.Ok(gameGenre);
+});
+
 app.Run();
 
 public partial class Program
