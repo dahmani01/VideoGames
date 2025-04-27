@@ -139,9 +139,24 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
 
         //Act
-        var response = await _client.GetAsync("/games/999");
+        var response = await _client.GetAsync("/gamegenres/999");
 
         //Assert
         Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetGameGenreById_ReturnsSuccess_WhenGameGenreExists()
+    {
+        //Arrange
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
+
+        //Act
+        var response = await _client.GetAsync("/gamesgenres/1");
+        response.EnsureSuccessStatusCode();
+        var gameGenre = response.Content.ReadFromJsonAsync<GameGenre>().Result;
+
+        Assert.NotNull(gameGenre);
     }
 }
