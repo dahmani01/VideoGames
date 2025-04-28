@@ -151,12 +151,15 @@ public class GamesEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         //Arrange
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<VideoGamesContext>();
+        SeedData(db);
 
         //Act
-        var response = await _client.GetAsync("/gamesgenres/1");
+        var response = await _client.GetAsync("/gamegenres/1");
         response.EnsureSuccessStatusCode();
-        var gameGenre = response.Content.ReadFromJsonAsync<GameGenre>().Result;
+        GameGenre? gameGenre = await response.Content.ReadFromJsonAsync<GameGenre>();
 
         Assert.NotNull(gameGenre);
+        Assert.Equal(1, gameGenre.Id);
+        Assert.Equal("Action", gameGenre.Name);
     }
 }
